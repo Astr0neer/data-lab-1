@@ -1,0 +1,5 @@
+1 = You can't reliably use non-CPU execution time  to measure algorithm efficiency because it's highly susceptible to external factors unrelated to the algorithm's actual computational work.
+
+2= O(n)
+
+3 = A)=O(1)  B)O(n^2)   C)O(logn)
