@@ -12,6 +12,7 @@ public class StaticLifetime {
 
         obj2.incrementCount();
         obj1.incrementCount();
+        
 
     }
 }
