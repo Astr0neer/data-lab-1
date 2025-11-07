@@ -9,6 +9,7 @@ public class Main {
         stack.push(3);
         stack.push(4);
         stack.push(5);
+        stack.pop();
 
         System.out.println("Middle element: " + stack.getMiddle());
         stack.deleteMiddle();
