@@ -1,0 +1,67 @@
+package lab7;
+
+public class StudentVerifier {
+
+    // Public RSA data (can be known by students) ---
+    // These must match the teacher side parameters.
+    private static final int N = 3233;   // modulus for RSA
+    private static final int E = 17;     // public KEY exponent
+
+    // STUDENT TASK (Exercise 1):
+    // Implement a simple hash function:
+    //  - Start with hash = 0
+    //  - For each character: hash = (hash + c) % 1000
+    //  - Return hash
+    public static int simpleHash(String message) {
+        int hash = 0;
+        for (int i = 0; i < message.length(); i++) {
+            char c = message.charAt(i);
+            hash = (hash + c) % 1000;
+        }
+        return hash;
+    }
+
+
+
+    // RSA: modular exponentiation (base^exponent mod mod)
+    // You may assume this method is correct and just use it later
+    // when verifying the digital signature.
+    public static int modPow(int base, int exponent, int mod) {
+        long result = 1;
+        long b = base % mod;
+        int e = exponent;
+
+        while (e > 0) {
+            if ((e & 1) == 1) {
+                result = (result * b) % mod;
+            }
+            b = (b * b) % mod;
+            e = e >> 1;
+        }
+
+        return (int) result;
+    }
+
+    public static boolean verifyMessage(String message, int signature) {
+        // 1. Recompute the hash from the received message
+        int recomputedHash = simpleHash(message);
+        // 2. Recover the hash from the signature using public key
+        int recoveredHash = modPow(signature, E, N);
+        // 3. Compare both hashes
+        return recomputedHash == recoveredHash;
+    }
+
+    public static void main(String[] args) {
+        String receivedMessage = "Exam will be on Friday at 10:00.";
+        int receivedSignature = 330; // teacher's signature for the message above
+
+        System.out.println("=== STUDENT SIDE ===");
+        System.out.println("Received message   : " + receivedMessage);
+        System.out.println("Received signature : " + receivedSignature);
+        
+        //  - call verifyMessage
+        boolean isValid = verifyMessage(receivedMessage, receivedSignature);
+        //  - print true/false
+        System.out.println("Is the signature valid? " + isValid);
+    }
+}
